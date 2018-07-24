@@ -1,4 +1,4 @@
-#!/bin/bash
+t=yes curses=no cairo=no#!/bin/bash
 
 # Die early if there is any problem
 set -x
@@ -16,8 +16,8 @@ cd /usr/local/src
 wget http://genometools.org/pub/genometools-1.5.1.tar.gz
 tar zxvf genometools-1.5.1.tar.gz
 cd genometools-1.5.1/
-make 64bit=yes curses=no cairo=no
-make 64bit=yes curses=no cairo=no install
+make 64bit=yes curses=no cairo=no errorcheck=no
+make 64bit=yes curses=no cairo=no errorcheck=no install
 
 
 
@@ -56,7 +56,8 @@ mv ./BFCounter /usr/local/bin/
 
 # Install Turtle
 cd /usr/local/src
-wget http://bioinformatics.rutgers.edu/Static/Software/Turtle/Turtle-0.3.tar.gz
+wget http://bioinformatics.rutgers.edu/Static/Software/Turtle/Turtle-0.3.1.tar.gz 
+#wget http://bioinformatics.rutgers.edu/Static/Software/Turtle/Turtle-0.3.tar.gz
 tar zxvf Turtle-0.3.tar.gz
 cd Turtle-0.3/
 make
@@ -83,8 +84,10 @@ cd libgtextutils-0.6.1/
 cd /usr/local/src
 curl -O http://hannonlab.cshl.edu/fastx_toolkit/fastx_toolkit-0.0.13.2.tar.bz2
 tar xjf fastx_toolkit-0.0.13.2.tar.bz2
-cd fastx_toolkit-0.0.13.2/
+cd fastx_toolkit-0.0.13tq_to_fasta2/
 ./configure && make && make install
+
+sudo apt-get install fastx-toolkit
 
 # Install Trimmomatic #
 cd /usr/local/src
@@ -102,9 +105,10 @@ make
 cp seqtk /usr/local/bin
 
 # install Java
-cd /usr/local/src
-wget http://uni-smr.ac.ru/archive/dev/java/JRE/7/JRE-7.51/jre-7u51-linux-x64.tar.gz 
-tar zxvf jre-7u51-linux-x64.tar.gz 
+sudo apt-get install default-jre
+#cd /usr/local/src
+#wget http://uni-smr.ac.ru/archive/dev/java/JRE/7/JRE-7.51/jre-7u51-linux-x64.tar.gz 
+#tar zxvf jre-7u51-linux-x64.tar.gz 
 
 
 # Install ipython
@@ -113,12 +117,15 @@ git clone https://github.com/ipython/ipython.git
 cd ipython
 python setup.py install
 
+sudo apt-get install ipython
+
 # Upgrade pyzmq, which is required by ipython notebook
 pip install pyzmq --upgrade
 
 # Upgrade some other packages required by ipython notebook to draw figures
 
 # numpy
+sudo pip install cython
 cd /usr/local/src
 git clone git://github.com/numpy/numpy.git numpy
 cd numpy
@@ -130,10 +137,13 @@ pip install --upgrade patsy
 apt-get install libfreetype6-dev
 apt-get install libpng-dev
 pip install matplotlib
+sudo apt-get install pkg-config
+sudo apt-get install libblas-dev liblapack-dev
 pip install seaborn
 pip install --upgrade six
 pip install --upgrade statsmodels
-pip install --upgrade tornado
+sudo pip install "Tornado>=4.0.0,<5.0.0"
+#pip install --upgrade tornado
 
 
 # Upgrade the latex install with a few recommended packages
@@ -141,7 +151,8 @@ apt-get -y install texlive-latex-recommended
 
 cd /usr/local/src
 # Install Velvet
-curl -O http://www.ebi.ac.uk/~zerbino/velvet/velvet_1.2.10.tgz
+#curl -O http://www.ebi.ac.uk/~zerbino/velvet/velvet_1.2.10.tgz
+sudo wget https://www.ebi.ac.uk/~zerbino/velvet/velvet_1.2.10.tgz
 tar xvzf velvet_1.2.10.tgz
 cd velvet_1.2.10/
 make 'MAXKMERLENGTH=49'
